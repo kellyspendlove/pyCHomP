@@ -1,5 +1,5 @@
-### Braids.py
-### MIT LICENSE 2016 Shaun Harker
+ ### Braids.py
+### MIT LICENSE 2016 Shaun Harker, Kelly Spendlove
 
 from pychomp._chomp import *
 
@@ -114,6 +114,42 @@ def BraidComplex( braid_diagram ):
       lap_dict[x] = braid_diagram.lap(complex.coordinates(x))
     return lap_dict[x]
 
+  #Compute if vertex in closure of top-cell from coordinates
+  #v in closure top cube t if and only if 0 <= v(x) - t(x) <= 1 for all coordinates x
+  def in_closure(t_coord, v_coord):
+    diff = [ v_coord[i] - t_coord[i] for i in range(len(t_coord))]
+    for x in diff:
+        if x < 0 or x > 1:
+            return False
+    return True
+
+
+  def edges(x):
+    bd = complex.boundary({x})
+    adj = set()
+    edges = set()
+    for wall in bd:
+        [u, v] = complex.coboundary( {wall} )
+        adj . add (u)
+        adj . add (v)
+    for y in adj:
+        if lap(y) <= lap(x):
+            edges . add ( y )
+    collapsed_strands = [ i for i in range(0,n) if pi(i) == i ]
+    collapsed_vertices_coords = [ [ braid_diagram.thresholds[j].index(braid_diagram(i,j)) for j in range(0,m) ] for i in collapsed_strands]
+    #collapsed_vertices = [ complex.cell_index(coordinates, 0) for coordinates in collapsed_vertices_coords ]
+    # Connect all cubes in the star of any collapsed strand
+    # Check if vertex in closure computed quickly from coordinates
+    top_coord = complex.coordinates ( x )
+    for v in collapsed_vertices_coords:
+        if in_closure(top_coord, v):
+            for y in adj:
+                y_coord = complex.coordinates ( y )
+                if in_closure(y_coord, v):
+                    edges . add (y)
+    edges = frozenset(edges)
+    return edges
+
   # for x in complex(complex.dimension()):
   #   print( str(x) + " has coordinates " + str(complex.coordinates(x)) + " and lap number " + str(lap(x)))
 
@@ -121,38 +157,38 @@ def BraidComplex( braid_diagram ):
   # domains = [cell for cell in complex.cells() if cell.dimension() == m]
   # walls = [cell for cell in complex.cells() if cell.dimension() == m-1]
 
-  domains = [cell for cell in complex(m)]
-  walls = [cell for cell in complex(m-1)]
+  # domains = [cell for cell in complex(m)]
+  # walls = [cell for cell in complex(m-1)]
 
-  # Construct the edge set
-  edges = defaultdict(set)
-  for wall in walls:
-    # A wall can have 1 adjacent domain if it is off at infinity
-    if len(complex.coboundary({wall})) == 1: continue
-    # Otherwise, it has precisely 2 adjacent domains
-    [u, v] = complex.coboundary({wall})
-    if lap(u) <= lap(v):
-      edges[v].add(u)
-    if lap(u) >= lap(v):
-      edges[u].add(v)
+  # # Construct the edge set
+  # edges = defaultdict(set)
+  # for wall in walls:
+  #   # A wall can have 1 adjacent domain if it is off at infinity
+  #   if len(complex.coboundary({wall})) == 1: continue
+  #   # Otherwise, it has precisely 2 adjacent domains
+  #   [u, v] = complex.coboundary({wall})
+  #   if lap(u) <= lap(v):
+  #     edges[v].add(u)
+  #   if lap(u) >= lap(v):
+  #     edges[u].add(v)
 
-  # Identify collapsed strands
-  collapsed_strands = [ i for i in range(0,n) if pi(i) == i ]
+  # # Identify collapsed strands
+  # collapsed_strands = [ i for i in range(0,n) if pi(i) == i ]
 
-  #collapsed_vertices = [ CubicalCell([ [ x(i,j), x(i,j) ] for j in range(0,m) ]) for i in collapsed_strands ]
-  collapsed_vertices_coords = [ [ braid_diagram.thresholds[j].index(braid_diagram(i,j)) for j in range(0,m) ] for i in collapsed_strands]
-  collapsed_vertices = [ complex.cell_index(coordinates, 0) for coordinates in collapsed_vertices_coords ]
+  # #collapsed_vertices = [ CubicalCell([ [ x(i,j), x(i,j) ] for j in range(0,m) ]) for i in collapsed_strands ]
+  # collapsed_vertices_coords = [ [ braid_diagram.thresholds[j].index(braid_diagram(i,j)) for j in range(0,m) ] for i in collapsed_strands]
+  # collapsed_vertices = [ complex.cell_index(coordinates, 0) for coordinates in collapsed_vertices_coords ]
 
-  # Connect all cubes in the star of any collapsed strand
-  for v in collapsed_vertices:
-    #print("collapsed vertex " + str(v) + " has coordinates " + str(complex.coordinates(v)) + " and shape " + str(complex.cell_shape(v)))
-    #surrounding_walls = [ cell for cell in star(v) if cell.dimension() == m-1 ]
-    surrounding_walls = [ cell for cell in complex.star({v}) if cell >= walls[0] and cell <= walls[-1] ]
+  # # Connect all cubes in the star of any collapsed strand
+  # for v in collapsed_vertices:
+  #   #print("collapsed vertex " + str(v) + " has coordinates " + str(complex.coordinates(v)) + " and shape " + str(complex.cell_shape(v)))
+  #   #surrounding_walls = [ cell for cell in star(v) if cell.dimension() == m-1 ]
+  #   surrounding_walls = [ cell for cell in complex.star({v}) if cell >= walls[0] and cell <= walls[-1] ]
 
-    for wall in surrounding_walls:
-      if len(complex.coboundary({wall})) == 1: continue
-      [u, v] = complex.coboundary({wall})
-      edges[u].add(v)
-      edges[v].add(u)
+  #   for wall in surrounding_walls:
+  #     if len(complex.coboundary({wall})) == 1: continue
+  #     [u, v] = complex.coboundary({wall})
+  #     edges[u].add(v)
+  #     edges[v].add(u)
 
   return (complex, lambda v : edges[v] )
