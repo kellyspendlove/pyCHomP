@@ -191,4 +191,4 @@ def BraidComplex( braid_diagram ):
   #     edges[u].add(v)
   #     edges[v].add(u)
 
-  return (complex, lambda v : edges[v] )
+  return (complex, lambda v : edges(v) )
