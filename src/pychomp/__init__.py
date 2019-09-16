@@ -5,6 +5,7 @@ from pychomp._chomp import *
 #from pychomp.Braids import *
 from pychomp.CondensationGraph import *
 from pychomp.FlowGradedComplex import *
+from pychomp.LapGradedComplex import *
 from pychomp.TopologicalSort import *
 from pychomp.DirectedAcyclicGraph import *
 from pychomp.InducedSubgraph import *
