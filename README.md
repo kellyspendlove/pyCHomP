@@ -22,7 +22,7 @@ pip uninstall pychomp
 To get the bleeding edge version (i.e., this repo):
 
 ```bash
-git clone https://github.com/shaunharker/pyCHomP.git
+git clone config https://github.com/kellyspendlove/pyCHomP.git
 cd pyCHomP
 git submodule update --init --recursive
 pip install . --ignore-installed --no-cache-dir -v -v -v --user
