@@ -350,7 +350,7 @@ public:
   /// cell_index
   Integer
   cell_index ( std::vector<Integer> const& coordinates, 
-               Integer shape ) {
+               Integer shape ) const {
     Integer cell = 0;
     for ( Integer d = dimension() - 1; d >= 0; -- d ) {
       cell *= boxes()[d];
@@ -359,7 +359,22 @@ public:
     cell += TS() [ shape ] * type_size();
     return cell;
   }
-
+  //cell shape from barycenter coordinates
+  Integer
+  SB ( std::vector<Integer> barys ) const {
+    Integer shape = 0;
+    for (Integer i = 0; i < barys.size(); ++i ) {
+      if (barys[i] % 2 == 1) shape += 1 << i;
+    }
+  return shape;
+  }
+  //cell index from barycenter coordinates
+  Integer 
+  IB ( std::vector<Integer> barys ) const {
+    std::vector<Integer> coords;
+    for (auto b : barys ) coords . push_back ( b / 2 );
+    return cell_index (coords, SB ( barys ));
+  }
   /// cell_dim
   ///   Return dimension of cell
   Integer
@@ -471,7 +486,9 @@ CubicalComplexBinding(py::module &m) {
     .def(py::init<std::vector<Integer> const&>())
     .def("boxes", &CubicalComplex::boxes)
     .def("coordinates", &CubicalComplex::coordinates)
-    .def("barycenter", &CubicalComplex::barycenter)    
+    .def("barycenter", &CubicalComplex::barycenter)
+    .def("SB", &CubicalComplex::SB)    
+    .def("IB", &CubicalComplex::IB)    
     .def("cell_type", &CubicalComplex::cell_type)
     .def("cell_shape", &CubicalComplex::cell_shape)
     .def("cell_pos", &CubicalComplex::cell_pos)

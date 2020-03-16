@@ -30,13 +30,16 @@ public:
       throw std::invalid_argument("CubicalMorseMatching must be constructed with a Cubical Complex");
     }
     type_size_ = complex_ -> type_size();
-    Integer D = complex_ -> dimension();
+    Integer D = complex_ -> dimension() / 2;
+    Integer p = complex_ -> boxes () [ 0 ];
+    Integer q = complex_ -> boxes () [ D ];
+    D = std::min ( D, p*q / 3 );
     Integer idx = 0;
     begin_.resize(D+2);
     for ( Integer d = 0; d <= D; ++ d) {
       begin_[d] = idx;
       for ( auto v : (*complex_)(d) ) { // TODO: skip fringe cells
-        if ( ! complex_ -> rightfringe(v) ) {
+        if ( ! complex_ -> rightfringe(v) && graded_complex_ -> value(v) == 0 ) {
           if ( mate(v) == v ) { 
             reindex_.push_back({v,idx});
             ++idx;

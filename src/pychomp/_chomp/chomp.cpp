@@ -12,6 +12,7 @@
 #include "MorseMatching.h"
 #include "MorseMatching.hpp"
 #include "CubicalMorseMatching.h"
+#include "EquivariantCubicalMorseMatching.h"
 #include "GenericMorseMatching.h"
 #include "Homology.h"
 #include "GradedComplex.h"
@@ -21,6 +22,7 @@
 #include "SimplicialComplex.h"
 #include "OrderComplex.h"
 #include "DualComplex.h"
+#include "ValuationConfig.h"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -31,6 +33,7 @@ PYBIND11_MODULE( _chomp, m) {
   CubicalComplexBinding(m);
   MorseMatchingBinding(m);
   CubicalMorseMatchingBinding(m);
+  EquivariantCubicalMorseMatchingBinding(m);
   GenericMorseMatchingBinding(m);
   MorseComplexBinding(m);
   HomologyBinding(m);
@@ -41,4 +44,5 @@ PYBIND11_MODULE( _chomp, m) {
   SimplicialComplexBinding(m);
   OrderComplexBinding(m);
   DualComplexBinding(m);
+  ValuationConfigBinding(m);
 }
