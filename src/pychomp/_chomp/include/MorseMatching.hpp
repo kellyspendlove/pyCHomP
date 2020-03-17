@@ -4,6 +4,7 @@
 /// MIT LICENSE
 
 #include "MorseMatching.h"
+//#include "EquivariantCubicalMorseMatching.h"
 #include "CubicalMorseMatching.h"
 #include "GenericMorseMatching.h"
 
