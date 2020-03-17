@@ -4,28 +4,14 @@ CHomP (Computational Homology Project) with Python bindings
 
 ## Installation
 
-To get the latest tagged version from the PyPi repository:
-
-```bash
-pip install pychomp
-```
-
-To uninstall:
-
-```bash
-pip uninstall pychomp
-```
-
-
 ## Installing from source
 
 To get the bleeding edge version (i.e., this repo):
 
 ```bash
-git clone config https://github.com/kellyspendlove/pyCHomP.git
+git clone -b config https://github.com/kellyspendlove/pyCHomP.git
 cd pyCHomP
-git submodule update --init --recursive
-pip install . --ignore-installed --no-cache-dir -v -v -v --user
+./install.sh
 ```
 
 ## Troubleshooting
