@@ -9,7 +9,7 @@ CHomP (Computational Homology Project) with Python bindings
 To get the bleeding edge version (i.e., this repo):
 
 ```bash
-git clone config https://github.com/kellyspendlove/pyCHomP.git
+git clone -b config https://github.com/kellyspendlove/pyCHomP.git
 cd pyCHomP
 ./install.sh
 ```
