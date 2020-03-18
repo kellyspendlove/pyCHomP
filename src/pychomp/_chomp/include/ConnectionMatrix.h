@@ -23,7 +23,14 @@ ConnectionMatrix ( std::shared_ptr<GradedComplex> base ) {
   do {
     base = next;
     next = MorseGradedComplex(base);
+    next -> complex() -> forget_base();
   } while ( next -> complex() -> size() != base -> complex() -> size() );
+  // std::shared_ptr<GradedComplex> next = MorseGradedComplex(base);
+  // while ( next -> complex() -> size() != base -> complex() -> size() ) {
+  //   base = next;
+  //   next = MorseGradedComplex(base);
+  //   next -> complex() -> forget_base();
+  // }
   return base;
 }
 

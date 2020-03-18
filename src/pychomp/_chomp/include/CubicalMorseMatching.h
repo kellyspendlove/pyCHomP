@@ -30,10 +30,13 @@ public:
       throw std::invalid_argument("CubicalMorseMatching must be constructed with a Cubical Complex");
     }
     type_size_ = complex_ -> type_size();
+    //Integer D = complex_ -> dimension();
+    //Optimizations for Configuration Space:
     Integer D = complex_ -> dimension() / 2;
     Integer p = complex_ -> boxes () [ 0 ];
     Integer q = complex_ -> boxes () [ D ];
     D = std::min ( D, p*q / 3 );
+    
     Integer idx = 0;
     begin_.resize(D+2);
     for ( Integer d = 0; d <= D; ++ d) {

@@ -85,6 +85,7 @@ public:
     return result;
   }
 
+
   /// column
   ///   Apply "callback" method to every element in ith column of
   ///   boundary matrix
@@ -96,6 +97,10 @@ public:
   ///   boundary matrix
   virtual void
   row ( Integer i, std::function<void(Integer)> const& callback) const {};
+
+  virtual void
+  forget_base (void ) {
+  }
   
   /// dimension
   Integer 

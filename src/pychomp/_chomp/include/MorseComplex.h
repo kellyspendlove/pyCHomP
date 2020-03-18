@@ -106,6 +106,12 @@ public:
     return base_;
   }
 
+  // reset complex
+  virtual void
+  forget_base ( void ) {
+    base_ . reset();
+  }
+
   /// matching
   std::shared_ptr<MorseMatching>
   matching ( void ) const {
@@ -210,5 +216,6 @@ MorseComplexBinding(py::module &m) {
     .def("lower", &MorseComplex::lower)
     .def("flow", &MorseComplex::flow)
     .def("base", &MorseComplex::base)
+    .def("forget_base", &MorseComplex::forget_base)
     .def("matching", &MorseComplex::matching);
 }

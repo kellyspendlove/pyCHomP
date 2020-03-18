@@ -7,6 +7,7 @@
 
 #include "Integer.h"
 #include "Complex.h"
+#include "MorseComplex.h"
 //#include "Poset.h"
 
 class GradedComplex {
