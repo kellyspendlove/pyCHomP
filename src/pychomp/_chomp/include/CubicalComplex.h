@@ -157,6 +157,29 @@ public:
     return result;
   }
 
+  //topstar
+  //  return top dimensional cells in star
+  //  note: assumed twisted periodic conditions
+  // virtual std::vector<Integer>
+  // topstar ( Integer cell ) const {
+  //   std::vector<Integer> result;
+  //   Integer shape = cell_shape(cell);
+  //   // Loop through dimension()-bit bitcodes
+  //   Integer M = 1L << dimension(); // i.e. 2^dimension()
+  //   Integer H = 1L << (dimension() - popcount_ (shape));
+  //   //std::cout << " H: " << H << "\n";
+  //   // Compute the topcell x we get by expanding cell to the right in all collapsed dimensions:
+  //   Integer position = cell % type_size(); // (M-1)==(2^D-1) is type of a topcell
+  //   Integer offset = type_size() * (M-1);
+  //   // std::cout << " cell = " << cell << "\n";
+  //   // std::cout << "all-1's topcell = " << x << "\n";
+  //   for (Integer i = 0; i < H; ++ i ) {
+  //     //std::cout << " i " << i << " embed: " << embed(i,shape) << "\n";
+  //     result.push_back(offset + (position + topstar_offset_[embed(i,shape)] + type_size() ) % type_size());
+  //   }
+  //   return result;
+  // }
+
   /// parallelneighbors
   ///   return top dimensional cells in star
   ///   note: assumed twisted periodic conditions
@@ -445,6 +468,45 @@ private:
     Integer pcnt = 0; 
     while(x != 0) { x &= x - 1; ++pcnt; } 
     return pcnt;
+  }
+  //DRY SMELL
+  // Integer
+  // embed ( Integer code, Integer shape) const {
+  //   if (shape == 0) return code;
+
+  //   Integer count = 0;
+  //   Integer embedding = 0;
+  //   Integer embed_coords = ~shape;
+  //   for ( Integer d = 0, bit = 1; d < dimension(); ++ d, bit <<= 1L  ) {
+  //     //std::cout << " bit: " << bit << "\n";
+  //     if ( embed_coords & bit ) {
+  //       if ( code & (1 << count) ) {
+  //         embedding += (1 << d);
+  //       }
+  //       count += 1;
+  //     }
+  //     else {
+  //       embedding += (1 << d);
+  //     }
+  //   }
+  //   return embedding;
+  // }
+  Integer
+  embed ( Integer code, Integer shape) const {
+    if (shape == 0) return code;
+
+    Integer count = 0;
+    Integer stub = 0;
+    Integer temp = shape;
+    while (code != 0) {
+      if (!(shape & 1)) {
+        if (code & 1) stub += (1<<count);
+        code >>= 1;
+      }
+      shape >>= 1;
+      ++count; 
+    }
+    return stub+temp;
   }
 private:
   std::vector<Integer> boxes_;
