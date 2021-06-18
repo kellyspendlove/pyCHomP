@@ -8,11 +8,14 @@
 #include "Chain.h"
 #include "Complex.h"
 #include "CubicalComplex.h"
+//#include "UntwistedCubicalComplex.h"
 #include "MorseComplex.h"
 #include "MorseMatching.h"
 #include "MorseMatching.hpp"
 #include "CubicalMorseMatching.h"
-#include "EquivariantCubicalMorseMatching.h"
+//#include "CubicalNFMorseMatching.h"
+#include "CubicalNNMorseMatching.h"
+//#include "EquivariantCubicalMorseMatching.h"
 #include "GenericMorseMatching.h"
 #include "Homology.h"
 #include "GradedComplex.h"
@@ -31,9 +34,12 @@ namespace py = pybind11;
 PYBIND11_MODULE( _chomp, m) {
   ComplexBinding(m);
   CubicalComplexBinding(m);
+  //UntwistedCubicalComplexBinding(m);
   MorseMatchingBinding(m);
   CubicalMorseMatchingBinding(m);
-  EquivariantCubicalMorseMatchingBinding(m);
+  CubicalNFMorseMatchingBinding(m);
+  CubicalNNMorseMatchingBinding(m);
+  //EquivariantCubicalMorseMatchingBinding(m);
   GenericMorseMatchingBinding(m);
   MorseComplexBinding(m);
   HomologyBinding(m);
