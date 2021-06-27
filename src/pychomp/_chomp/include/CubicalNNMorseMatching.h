@@ -40,10 +40,10 @@ public:
 
     Integer D = complex_ -> dimension(); //dimensions for Morse complex
     //Optimizations for Configuration Space (of squares in a rectangle)
-    // Integer n = complex_ -> dimension() / 2;
-    // Integer p = complex_ -> boxes () [ 0 ];
-    // Integer q = complex_ -> boxes () [ n ];
-    // D = std::min ( n, std::min( (p*q)/3, p*q-n ));//adjust dimension using bounds from paper
+    //Integer n = complex_ -> dimension() / 2;
+    //Integer p = complex_ -> boxes () [ 0 ];
+    //Integer q = complex_ -> boxes () [ n ];
+    //D = std::min ( n, std::min( (p*q)/3, p*q-n ));//adjust dimension using bounds from paper
     //End optimizations for squares
     //Optimizations for Configuration Space (of cubes in a box)
     // Integer n = complex_ -> dimension() / 3;
@@ -60,12 +60,16 @@ public:
     std::vector<std::queue<Integer>> crit_cells (D+1);
     for ( auto v : (*complex_)(0) ) { //for each position (vertex)
 
-      if ( v % (complex_ -> PV()[complex_ -> dimension()] / 10) == 0) std::cout << "progress: " << v << "\n";
+     //if ( v % (complex_ -> PV()[complex_ -> dimension()] / 10) == 0) std::cout << "progress: " << v << "\n";
       //config space optimization: any cell incident to non-configuration doesn't belong to config space
       //if ( graded_complex_ -> value(v) != 0 ) continue; //config optimization
 
       Integer maxc = complex_ -> maxcoords ( v );
-      Integer H = complex_ -> dimension() - popcount_ ( maxc ); //H is size of hypercube to iterate over
+      
+      Integer maxc_dim = popcount_ ( maxc );
+      //Integer dim_y = popcount_ (maxc >> n);
+      //if ( (maxc_dim-dim_y == 0) || dim_y == 0) continue; //config space optimization
+      Integer H = complex_ -> dimension() - maxc_dim; //H is size of hypercube to iterate over
       std::vector<bool> visited ( (1L<<H) );
 
       //Braids optimizer
@@ -78,7 +82,7 @@ public:
       //   if (graded_complex_ -> value (x) > top_cell_value) continue; //MAYBE
       // }
       //}
-      if ( maxc != 0 || complex_-> mincoords(v) != 0) continue; //Experimental testing for braids!
+      //if ( maxc != 0 || complex_-> mincoords(v) != 0) continue; //Experimental testing for braids!
 
 
       for (Integer type = 0; type < (1L << H); ++ type ) {

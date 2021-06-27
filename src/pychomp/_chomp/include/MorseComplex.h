@@ -107,9 +107,10 @@ public:
   }
 
   // reset complex
-  virtual void
+  void
   forget_base ( void ) {
     base_ . reset();
+    matching_ . reset();
   }
 
   /// matching

@@ -98,7 +98,7 @@ public:
   virtual void
   row ( Integer i, std::function<void(Integer)> const& callback) const {};
 
-  virtual void
+  void
   forget_base (void ) {
   }
   
