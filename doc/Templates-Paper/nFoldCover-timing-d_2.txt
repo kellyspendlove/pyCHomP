@@ -1,5 +1,0 @@
-d: 2
- Timing for Morse Complex: 
-163 µs ± 2.26 µs per loop (mean ± std. dev. of 7 runs, 10000 loops each)
- Timing for ConnectionMatrix: 
-209 µs ± 4.95 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
